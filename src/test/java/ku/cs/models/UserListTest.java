@@ -38,42 +38,55 @@ class UserListTest {
     @DisplayName("User can change password")
     public void testUserCanChangePassword() {
         // TODO: add 3 users to UserList
-        User user1 = new User("Aomsin", "aomsin123");
-        User user2 = new User("Khaotung", "khaotung123");
-        User user3 = new User("First", "first123");
-
         UserList userlist = new UserList();
         userlist.addUser("Aomsin", "aomsin123");
         userlist.addUser("Khaotung", "khaotung123");
         userlist.addUser("First", "first123");
 
         // TODO: change password of one user
-        userlist.changePassword("Aomsin", "aomsin123", "luvkhaofirst");
+        boolean result = userlist.changePassword("Aomsin", "aomsin123", "luvkhaofirst");
+        assertTrue(result);
 
         // TODO: assert that user can change password
-        // assertTrue(actual);
+        boolean isPasswordValid = userlist.verifyPassword("Aomsin", "luvkhaofirst");
+        assertTrue(isPasswordValid);
+
+        boolean isOldPasswordValid = userlist.verifyPassword("Aomsin", "aomsin123");
+        assertFalse(isOldPasswordValid);
     }
 
     @Test
     @DisplayName("User with correct password can login")
     public void testUserListShouldReturnObjectIfUsernameAndPasswordIsCorrect() {
         // TODO: add 3 users to UserList
+        UserList userlist = new UserList();
+        userlist.addUser("Aomsin", "aomsin123");
+        userlist.addUser("Khaotung", "khaotung123");
+        userlist.addUser("First", "first123");
 
         // TODO: call login() with correct username and password
+        User user = userlist.login("Aomsin", "aomsin123");
 
         // TODO: assert that User object is found
         // assertEquals(expected, actual);
+        assertEquals(userlist.login("Aomsin", "aomsin123"), user);
+        //user จะทำการเช็ค username แล้วตรง userlist.login ค่อยมาเช็ค password
     }
 
     @Test
     @DisplayName("User with incorrect password cannot login")
     public void testUserListShouldReturnNullIfUsernameAndPasswordIsIncorrect() {
         // TODO: add 3 users to UserList
+        UserList userlist = new UserList();
+        userlist.addUser("Aomsin", "aomsin123");
+        userlist.addUser("Khaotung", "khaotung123");
+        userlist.addUser("First", "first123");
 
         // TODO: call login() with incorrect username or incorrect password
-
+        User user = userlist.login("Aomsin", "aomsin1234");
         // TODO: assert that the method return null
         // assertNull(actual);
+        assertNull(user);
     }
 
 }
